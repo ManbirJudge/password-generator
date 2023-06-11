@@ -3,19 +3,20 @@
 # Date: Aug to Sep, 2021
 # ###################################
 
-from tkinter import *
-from tkinter.ttk import Checkbutton
-
-import random
 import json
 import pathlib
+import random
+from tkinter import *
+from tkinter.ttk import Checkbutton
 
 import pyperclip as pc
 
 SYMBOLS = ['!', '@', '#', '$', '%', '&', '^', '*', '+', '-']
 NUMBER_CHARS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0']
-LOWERCASE_CHARS = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
-UPPERCASE_CHARS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+LOWERCASE_CHARS = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
+                   'u', 'v', 'w', 'x', 'y', 'z']
+UPPERCASE_CHARS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
+                   'U', 'V', 'W', 'X', 'Y', 'Z']
 SIMILAR_CHARS = ['i', 'I', 'l', 'L', '1', '0', 'o', 'O']
 AMB_CHARS = ['{', '}', '[', ']', '(', ')', '/', '\\', '\'', '\"', '`', ',', ';', ':', '.', '<', '>']
 
@@ -23,15 +24,15 @@ AMB_CHARS = ['{', '}', '[', ']', '(', ')', '/', '\\', '\'', '\"', '`', ',', ';',
 def save_settings():
     settings_dict = {
         'pwd_length': int(length_var.get()),
-        'inc_symbols':  bool(include_symbols.get()),
-        'inc_nums':  bool(include_nums.get()),
-        'inc_lower_chr':  bool(include_lower_chr.get()),
-        'inc_upper_chr':  bool(include_upper_chr.get()),
-        'exc_similar_chr':  bool(exclude_similar_chr.get()),
-        'inc_amb_chr':  bool(include_amb_chr.get()),
-        'gen_on_this_dev':  None,
-        'auto_select':  bool(auto_select.get()),
-        'save_my_pre':  bool(save_my_pre.get()),
+        'inc_symbols': bool(include_symbols.get()),
+        'inc_nums': bool(include_nums.get()),
+        'inc_lower_chr': bool(include_lower_chr.get()),
+        'inc_upper_chr': bool(include_upper_chr.get()),
+        'exc_similar_chr': bool(exclude_similar_chr.get()),
+        'inc_amb_chr': bool(include_amb_chr.get()),
+        'gen_on_this_dev': None,
+        'auto_select': bool(auto_select.get()),
+        'save_my_pre': bool(save_my_pre.get()),
     }
 
     with open('settings.json', 'w') as settings_json_file:
@@ -46,31 +47,31 @@ def load_settings():
         length_var.set(str(settings['pwd_length']))
 
     if settings.get('inc_symbols') is not None:
-        include_symbols.set(1)
+        include_symbols.set(int(settings['inc_symbols']))
 
     if settings.get('inc_nums') is not None:
-        include_nums.set(1)
+        include_nums.set(int(settings['inc_nums']))
 
     if settings.get('inc_lower_chr') is not None:
-        include_lower_chr.set(1)
+        include_lower_chr.set(int(settings['inc_lower_chr']))
 
     if settings.get('inc_upper_chr') is not None:
-        include_upper_chr.set(1)
+        include_upper_chr.set(int(settings['inc_upper_chr']))
 
     if settings.get('exc_similar_chr') is not None:
-        exclude_similar_chr.set(1)
+        exclude_similar_chr.set(int(settings['exc_similar_chr']))
 
     if settings.get('inc_amb_chr') is not None:
-        include_amb_chr.set(1)
+        include_amb_chr.set(int(settings['inc_amb_chr']))
 
     if settings.get('gen_on_this_dev') is not None:
-        gen_on_ur_dev.set(1)
+        gen_on_ur_dev.set(int(settings['gen_on_this_dev']))
 
     if settings.get('auto_select') is not None:
-        auto_select.set(1)
+        auto_select.set(int(settings['auto_select']))
 
     if settings.get('save_my_pre') is not None:
-        save_my_pre.set(1)
+        save_my_pre.set(int(settings['save_my_pre']))
 
 
 def generate_pwd():
@@ -123,7 +124,7 @@ def generate_pwd():
         new_pwd_entry.focus()
         new_pwd_entry.selection_range(0, END)
 
-    if save_my_pre_check:
+    if save_my_pre_:
         save_settings()
 
 
@@ -205,11 +206,17 @@ gen_on_ur_dev_check = Checkbutton(
 gen_on_ur_dev_check.place(x=200, y=140)
 
 auto_select_check = Checkbutton(
-    root, text='Select the Password when Generated', variable=auto_select)
+    root,
+    text='Select the Password when Generated',
+    variable=auto_select
+)
 auto_select_check.place(x=200, y=160)
 
 save_my_pre_check = Checkbutton(
-    root, text='Save the Password Generation Settings on this Computer', variable=save_my_pre)
+    root,
+    text='Save the Password Generation Settings on this Computer',
+    variable=save_my_pre
+)
 save_my_pre_check.place(x=200, y=180)
 
 new_pwd_entry = Entry(root, textvariable=new_pwd, state="readonly")
